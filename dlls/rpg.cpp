@@ -22,6 +22,7 @@
 #include "nodes.h"
 #include "player.h"
 #include "gamerules.h"
+#include "game.h"
 
 
 
@@ -465,7 +466,12 @@ void CRpg::PrimaryAttack()
 	CRpgRocket *pRocket = CRpgRocket::CreateRpgRocket( vecSrc, m_pPlayer->pev->v_angle, m_pPlayer, this );
 
 	UTIL_MakeVectors( m_pPlayer->pev->v_angle );// RpgRocket::Create stomps on globals, so remake.
-	pRocket->pev->velocity = pRocket->pev->velocity + gpGlobals->v_forward * DotProduct( m_pPlayer->pev->velocity, gpGlobals->v_forward );
+
+	// Fixes the RPG wall bugg just a little bit - I dont want to remove it all. (You jump back and get the RPG in back of your head)
+	if (mp_rpg_fix.value > 0 && (pRocket->pev->velocity.x >= 0 && m_pPlayer->pev->velocity.x < 0) || (pRocket->pev->velocity.x < 0 && m_pPlayer->pev->velocity.x > 0))
+		pRocket->pev->velocity = pRocket->pev->velocity + 0.5 * gpGlobals->v_forward * DotProduct(m_pPlayer->pev->velocity, gpGlobals->v_forward); //Only use 50% of the velocity when the player are moving backwards.
+	else
+		pRocket->pev->velocity = pRocket->pev->velocity + gpGlobals->v_forward * DotProduct(m_pPlayer->pev->velocity, gpGlobals->v_forward);
 #endif
 
 	// firing RPG no longer turns on the designator. ALT fire is a toggle switch for the LTD.
