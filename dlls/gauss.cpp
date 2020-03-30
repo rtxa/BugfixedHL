@@ -323,10 +323,11 @@ void CGauss::StartFire( void )
 	else
 	{
 #ifdef CLIENT_DLL
-		flDamage = 200 * (( gpGlobals->time - m_pPlayer->m_flStartCharge) / GetFullChargeTime() );
+		flDamage = 200 * ((gpGlobals->time - m_pPlayer->m_flStartCharge) / GetFullChargeTime());
 #else
-		flDamage = gSkillData.plrDmgGaussSecondary * (( gpGlobals->time - m_pPlayer->m_flStartCharge) / GetFullChargeTime() );
+		flDamage = gSkillData.plrDmgGaussSecondary * ((gpGlobals->time - m_pPlayer->m_flStartCharge) / GetFullChargeTime());
 #endif
+	}
 
 	if ( m_fPrimaryFire )
 	{
