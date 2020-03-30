@@ -57,6 +57,7 @@ cvar_t  mp_chattime = {"mp_chattime","10", FCVAR_SERVER };
 cvar_t  mp_notify_player_status = {"mp_notify_player_status","7"};	// Notifications about join/leave/spectate
 
 cvar_t	mp_welcomecam = { "mp_welcomecam", "1", FCVAR_SERVER };
+cvar_t	mp_wallgauss = { "mp_wallgauss", "1.0", FCVAR_SERVER };
 cvar_t	mp_blastradius = { "mp_blastradius", "1.0", FCVAR_SERVER };
 cvar_t	mp_rpg_fix = { "mp_rpg_fix", "0", FCVAR_SERVER };
 cvar_t	mp_respawn_fix = { "mp_respawn_fix", "1", FCVAR_SERVER };
@@ -533,6 +534,7 @@ void GameDLLInit( void )
 	CVAR_REGISTER (&mp_notify_player_status);
 
 	CVAR_REGISTER (&mp_welcomecam);
+	CVAR_REGISTER (&mp_wallgauss);
 	CVAR_REGISTER (&mp_blastradius);
 	CVAR_REGISTER (&mp_rpg_fix);
 	CVAR_REGISTER (&mp_respawn_fix);
