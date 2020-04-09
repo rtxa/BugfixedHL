@@ -297,11 +297,12 @@ void Host_Say( edict_t *pEntity, int teamonly )
 	CBasePlayer* player = GetClassPtr((CBasePlayer *)pev);
 
 	// Flood check
-	if (player->m_flNextChatTime > gpGlobals->time)
+	// Note: I use g_engfuncs.pfnTime() instead of gpGlobals->time because it doesn't work in pause
+	if (player->m_flNextChatTime > g_engfuncs.pfnTime())
 	{
 		if (player->m_iChatFlood >= CHAT_FLOOD)
 		{
-			player->m_flNextChatTime = gpGlobals->time + CHAT_INTERVAL + CHAT_PENALTY;
+			player->m_flNextChatTime = g_engfuncs.pfnTime() + CHAT_INTERVAL + CHAT_PENALTY;
 			return;
 		}
 		player->m_iChatFlood++;
@@ -310,7 +311,7 @@ void Host_Say( edict_t *pEntity, int teamonly )
 	{
 		player->m_iChatFlood--;
 	}
-	player->m_flNextChatTime = gpGlobals->time + CHAT_INTERVAL;
+	player->m_flNextChatTime = g_engfuncs.pfnTime() + CHAT_INTERVAL;
 
 
 	// We can get a raw string now, without the "say " prepended
