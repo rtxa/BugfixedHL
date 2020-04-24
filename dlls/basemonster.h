@@ -107,6 +107,7 @@ public:
 // Scripted sequence Info
 	SCRIPTSTATE			m_scriptState;		// internal cinematic state
 	CCineMonster		*m_pCine;
+	float				m_flLastYawTime;	// added for binary compatibility with 8308 build, not used because HLSDK hasn't been updated yet
 
 	virtual int		Save( CSave &save ); 
 	virtual int		Restore( CRestore &restore );
