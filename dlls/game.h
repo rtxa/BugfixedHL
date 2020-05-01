@@ -48,6 +48,7 @@ extern cvar_t	mp_wallgauss;
 extern cvar_t	mp_blastradius;
 extern cvar_t	mp_rpg_fix;
 extern cvar_t	mp_respawn_fix;
+extern cvar_t	mp_respawn_delay;
 
 extern cvar_t	mp_dmg_crowbar;
 extern cvar_t	mp_dmg_glock;

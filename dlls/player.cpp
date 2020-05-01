@@ -1325,9 +1325,9 @@ void CBasePlayer::PlayerDeathThink(void)
 			return;
 	}
 	else
-	{
+	{	
 		// time given to animate corpse and don't allow to respawn till this time ends
-		if (gpGlobals->time < m_flDeathAnimationStartTime + 1.5)
+		if (gpGlobals->time < m_flDeathAnimationStartTime + (mp_respawn_delay.value >= 0.0 ? mp_respawn_delay.value : 0.0))
 			return;
 	}
 

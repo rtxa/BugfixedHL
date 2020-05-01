@@ -61,6 +61,7 @@ cvar_t	mp_wallgauss = { "mp_wallgauss", "1.0", FCVAR_SERVER };
 cvar_t	mp_blastradius = { "mp_blastradius", "1.0", FCVAR_SERVER };
 cvar_t	mp_rpg_fix = { "mp_rpg_fix", "0", FCVAR_SERVER };
 cvar_t	mp_respawn_fix = { "mp_respawn_fix", "1", FCVAR_SERVER };
+cvar_t	mp_respawn_delay = { "mp_respawn_delay", "0.95", FCVAR_SERVER }; // this rounded value comes from various tests playing at 125fps
 
 cvar_t	mp_dmg_crowbar = { "mp_dmg_crowbar", "25", FCVAR_SERVER };
 cvar_t	mp_dmg_glock = { "mp_dmg_glock", "12", FCVAR_SERVER };
@@ -538,6 +539,7 @@ void GameDLLInit( void )
 	CVAR_REGISTER (&mp_blastradius);
 	CVAR_REGISTER (&mp_rpg_fix);
 	CVAR_REGISTER (&mp_respawn_fix);
+	CVAR_REGISTER (&mp_respawn_delay);
 
 	CVAR_REGISTER(&mp_dmg_crowbar);
 	CVAR_REGISTER(&mp_dmg_glock);
