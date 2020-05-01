@@ -545,11 +545,15 @@ void ClientCommand( edict_t *pEntity )
 		pPlayer->SelectLastItem();
 	}
 	else if (FStrEq(pcmd, "spectate"))
-	{
+	{	
+		// allow plugins to send to spec without worrying about the cmd getting blocked
+		if (spectator_cmd_delay.value == 0.0)
+			pPlayer->m_flNextSpectatorCommand = 0.0;
+
 		// Block too offten spectator command usage
 		if (pPlayer->m_flNextSpectatorCommand < gpGlobals->time)
 		{
-			pPlayer->m_flNextSpectatorCommand = gpGlobals->time + (spectator_cmd_delay.value < 1.0 ? 1.0 : spectator_cmd_delay.value);
+			pPlayer->m_flNextSpectatorCommand = gpGlobals->time + (spectator_cmd_delay.value < 0.0 ? 0.0 : spectator_cmd_delay.value);
 			if (!pPlayer->IsObserver())
 			{
 				if ((pev->flags & FL_PROXY) || allow_spectators.value != 0.0)
