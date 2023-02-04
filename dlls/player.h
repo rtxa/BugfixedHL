@@ -323,24 +323,31 @@ public:
 	char m_SbarString0[ SBAR_STRING_SIZE ];
 	char m_SbarString1[ SBAR_STRING_SIZE ];
 
-	int m_iChatFlood;
 	float m_flNextChatTime;
+
+	int m_iAutoWeaponSwitch;
+
+	BOOL IsConnected() { return m_bConnected; }
+	void Disconnect() { m_bConnected = FALSE; m_bPutInServer = FALSE; m_bIsBot = FALSE; m_bInWelcomeCam = FALSE; }
+
+	void StartWelcomeCam( void );
+	void StopWelcomeCam( void );
+
+	// BugfixedHL members
+
+	int m_iChatFlood;
+
 	float m_flNextSpectatorCommand;
 	float m_flNextFullupdate[2];
 
 	BOOL m_bConnected;		// we set it in Spawn() so it will be TRUE only after player was spawned
 	BOOL m_bPutInServer;	// we set it after PutInServer finished
 	BOOL m_bIsBot;			// we set it at PutInServer start
-	BOOL IsConnected() { return m_bConnected; }
-	void Disconnect() { m_bConnected = FALSE; m_bPutInServer = FALSE; m_bIsBot = FALSE; m_bInWelcomeCam = FALSE; }
 
 	Vector m_vecLastViewAngles;
 
-	int m_iAutoWeaponSwitch;
-
 	BOOL m_bInWelcomeCam;
-	void StartWelcomeCam( void );
-	void StopWelcomeCam( void );
+
 	float m_flDeathAnimationStartTime;	// used in PlayerDeathThink() to make sure players can always respawn
 };
 
