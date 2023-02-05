@@ -316,7 +316,7 @@ void CGauss::StartFire( void )
 	{
 #ifdef CLIENT_DLL
 		flDamage = 200;
-#else
+#else 
 		flDamage = gSkillData.plrDmgGaussSecondary;
 #endif
 	}

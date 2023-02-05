@@ -19,6 +19,8 @@
 #endif
 #include <inttypes.h>
 
+#include <inttypes.h>
+
 // For entityType below
 #define ENTITY_NORMAL		(1<<0)
 #define ENTITY_BEAM			(1<<1)
