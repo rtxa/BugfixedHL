@@ -80,7 +80,7 @@ jobs:
         
     - name: Build release
       run: |
-        msbuild multiplayer.sln -target:hl
+        msbuild multiplayer.sln -target:hl /p:Configuration=Release
 
         mkdir bugfixedhl-windows
         mkdir bugfixedhl-windows\dlls
