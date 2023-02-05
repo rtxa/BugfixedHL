@@ -912,6 +912,7 @@ void CBasePlayer::Killed( entvars_t *pevAttacker, int iGib )
 
 	SetAnimation( PLAYER_DIE );
 	
+	m_iRespawnFrames = 0;
 	m_flDeathAnimationStartTime = gpGlobals->time;
 
 	pev->modelindex = g_ulModelIndexPlayer;    // don't use eyes
@@ -945,14 +946,16 @@ void CBasePlayer::Killed( entvars_t *pevAttacker, int iGib )
 		WRITE_BYTE(0);
 	MESSAGE_END();
 
-	// Make dead player not solid so it will not lag other players passing over it
-	pev->solid = SOLID_NOT;
 
 	// UNDONE: Put this in, but add FFADE_PERMANENT and make fade time 8.8 instead of 4.12
 	// UTIL_ScreenFade( edict(), Vector(128,0,0), 6, 15, 255, FFADE_OUT | FFADE_MODULATE );
+	
+	// avoid bug with crowbar
+	pev->solid = SOLID_NOT;
 
 	if ( ( pev->health < -40 && iGib != GIB_NEVER ) || iGib == GIB_ALWAYS )
 	{
+		pev->solid = SOLID_NOT;
 		GibMonster();	// This clears pev->model
 		pev->effects |= EF_NODRAW;
 		return;
@@ -1315,9 +1318,22 @@ void CBasePlayer::PlayerDeathThink(void)
 	if (pev->modelindex && (!m_fSequenceFinished) && (pev->deadflag == DEAD_DYING))
 		StudioFrameAdvance( );
 
-	// time given to animate corpse and don't allow to respawn till this time ends
-	if (gpGlobals->time < m_flDeathAnimationStartTime + 1.5)
-		return;
+	if (mp_respawn_fix.value <= 0)
+	{
+		m_iRespawnFrames++;
+		if (m_iRespawnFrames < 120)
+			return;
+	}
+	else
+	{	
+		// time given to animate corpse and don't allow to respawn till this time ends
+		if (gpGlobals->time < m_flDeathAnimationStartTime + (mp_respawn_delay.value >= 0.0 ? mp_respawn_delay.value : 0.0))
+			return;
+	}
+
+	// make sure players with high fps finish the animation
+	if (pev->frame < 255)
+		pev->frame = 255;
 
 	// once we're done animating our death and we're on the ground, we want to set movetype to None so our dead body won't do collisions and stuff anymore
 	// this prevents a bug where the dead body would go to a player's head if he walked over it while the dead player was clicking their button to respawn
@@ -1369,6 +1385,7 @@ void CBasePlayer::PlayerDeathThink(void)
 		return;
 
 	pev->button = 0;
+	m_iRespawnFrames = 0;
 	m_flDeathAnimationStartTime = 0;
 
 	//ALERT(at_console, "Respawn\n");
@@ -1942,7 +1959,14 @@ void CBasePlayer::PreThink(void)
 	// Welcome cam buttons handling
 	if (m_bInWelcomeCam)
 	{
-		if (m_afButtonPressed & IN_ATTACK)
+		if (m_flNextAttack > 0)
+			return;
+
+		if (m_bIsBot) 
+		{
+			StopWelcomeCam();
+		} 
+		else if (m_afButtonPressed & IN_ATTACK )
 		{
 			StopWelcomeCam();
 		}

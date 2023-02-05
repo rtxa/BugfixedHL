@@ -17,6 +17,7 @@
 #ifdef _WIN32
 #pragma once
 #endif
+#include <inttypes.h>
 
 #include <inttypes.h>
 
