@@ -297,11 +297,12 @@ void Host_Say( edict_t *pEntity, int teamonly )
 	CBasePlayer* player = GetClassPtr((CBasePlayer *)pev);
 
 	// Flood check
-	if (player->m_flNextChatTime > gpGlobals->time)
+	// Note: I use g_engfuncs.pfnTime() instead of gpGlobals->time because it doesn't work in pause
+	if (player->m_flNextChatTime > g_engfuncs.pfnTime())
 	{
 		if (player->m_iChatFlood >= CHAT_FLOOD)
 		{
-			player->m_flNextChatTime = gpGlobals->time + CHAT_INTERVAL + CHAT_PENALTY;
+			player->m_flNextChatTime = g_engfuncs.pfnTime() + CHAT_INTERVAL + CHAT_PENALTY;
 			return;
 		}
 		player->m_iChatFlood++;
@@ -310,7 +311,7 @@ void Host_Say( edict_t *pEntity, int teamonly )
 	{
 		player->m_iChatFlood--;
 	}
-	player->m_flNextChatTime = gpGlobals->time + CHAT_INTERVAL;
+	player->m_flNextChatTime = g_engfuncs.pfnTime() + CHAT_INTERVAL;
 
 
 	// We can get a raw string now, without the "say " prepended
@@ -544,11 +545,15 @@ void ClientCommand( edict_t *pEntity )
 		pPlayer->SelectLastItem();
 	}
 	else if (FStrEq(pcmd, "spectate"))
-	{
+	{	
+		// allow plugins to send to spec without worrying about the cmd getting blocked
+		if (spectator_cmd_delay.value == 0.0)
+			pPlayer->m_flNextSpectatorCommand = 0.0;
+
 		// Block too offten spectator command usage
 		if (pPlayer->m_flNextSpectatorCommand < gpGlobals->time)
 		{
-			pPlayer->m_flNextSpectatorCommand = gpGlobals->time + (spectator_cmd_delay.value < 1.0 ? 1.0 : spectator_cmd_delay.value);
+			pPlayer->m_flNextSpectatorCommand = gpGlobals->time + (spectator_cmd_delay.value < 0.0 ? 0.0 : spectator_cmd_delay.value);
 			if (!pPlayer->IsObserver())
 			{
 				if ((pev->flags & FL_PROXY) || allow_spectators.value != 0.0)
@@ -1330,6 +1335,11 @@ int AddToFullPack( struct entity_state_s *state, int e, edict_t *ent, edict_t *h
 
 		state->usehull      = ( ent->v.flags & FL_DUCKING ) ? 1 : 0;
 		state->health		= ent->v.health;
+	}
+
+	if (ent->v.renderfx == kRenderFxDeadPlayer) {
+		state->movetype = MOVETYPE_NONE;
+		state->solid = SOLID_NOT;
 	}
 
 	return 1;

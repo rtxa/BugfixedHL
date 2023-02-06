@@ -80,12 +80,12 @@ jobs:
         
     - name: Build release
       run: |
-        msbuild multiplayer.sln -target:hl
+        msbuild multiplayer.sln -target:hl /p:Configuration=Release
 
         mkdir bugfixedhl-windows
         mkdir bugfixedhl-windows\dlls
 
-        copy dlls\msvc\Debug\hl.dll bugfixedhl-windows\dlls\
+        copy dlls\msvc\Release\hl.dll bugfixedhl-windows\dlls\
         copy network\delta.lst bugfixedhl-windows
         copy Readme.txt bugfixedhl-windows
       

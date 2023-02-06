@@ -2111,8 +2111,9 @@ void PM_LadderMove( physent_t *pLadder )
 		float climbSpeed = MAX_CLIMB_SPEED;
 		if (climbSpeed > pmove->maxspeed)
 			climbSpeed = pmove->maxspeed;
-		if (!g_iIsAg && (pmove->flags & FL_DUCKING))
-			climbSpeed *= PLAYER_DUCKING_MULTIPLIER;
+		// I disable this feature/fix for being gameplay changing, also it causes client prediction issues 
+		//if (!g_iIsAg && (pmove->flags & FL_DUCKING))
+		//	climbSpeed *= PLAYER_DUCKING_MULTIPLIER;
 
 		AngleVectors( pmove->angles, vpn, v_right, NULL );
 
