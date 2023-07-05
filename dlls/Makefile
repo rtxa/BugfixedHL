@@ -31,14 +31,15 @@ CFLAGS=$(BASE_CFLAGS) -w -m32 -O1
 #full optimization
 #CFLAGS=$(BASE_CFLAGS) -w -m32 -O1 -ffast-math -funroll-loops \
 	-fomit-frame-pointer -fexpensive-optimizations \
-	-malign-loops=2 -malign-jumps=2 -malign-functions=2
+	-malign-loops=2 -malign-jumps=2 -malign-functions=2 \
+	-static-libstdc++ -static-libgcc
 
 #use these when debugging 
 #CFLAGS=$(BASE_CFLAGS) -g
 
 INCLUDEDIRS=-I. -I$(ENGINE_SRCDIR) -I$(COMMON_SRCDIR) -I$(PM_SHARED_SRCDIR) -I$(GAME_SHARED_SRCDIR)
 
-LDFLAGS=-lm -lpthread -static-libstdc++
+LDFLAGS=-lm -lpthread 
 
 SHLIBEXT=so
 SHLIBCFLAGS=-fPIC -fno-exceptions
