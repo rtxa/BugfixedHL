@@ -26,7 +26,7 @@ jobs:
 
     - name: Build release
       run: |
-        make -C /dlls
+        make -C dlls
 
     - name: Distribute files
       run: |
