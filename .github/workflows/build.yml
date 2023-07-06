@@ -24,7 +24,7 @@ jobs:
     
     - name: Build release
       run: |
-        # Note: I set GCC 3.4 as the default compiler because newer versions don't work with some metamod versions
+        git config --global --add safe.directory "*"
         cd dlls
         make
         cd $GITHUB_WORKSPACE
