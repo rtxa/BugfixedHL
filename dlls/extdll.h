@@ -59,9 +59,12 @@ typedef int BOOL;
 #include "math.h"
 
 // Min/max
-#include <algorithm>
-using std::max;
-using std::min;
+#ifndef min
+#define min(a,b)  (((a) < (b)) ? (a) : (b))
+#endif
+#ifndef max
+#define max(a,b)  (((a) > (b)) ? (a) : (b))
+#endif
 
 // Header file containing definition of globalvars_t and entvars_t
 typedef int	func_t;					//
