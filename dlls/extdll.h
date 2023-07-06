@@ -49,20 +49,23 @@ typedef int BOOL;
 #define MAX_PATH PATH_MAX
 #include <limits.h>
 #include <stdarg.h>
-#ifndef min
-#define min(a,b)  (((a) < (b)) ? (a) : (b))
-#endif
-#ifndef max
-#define max(a,b)  (((a) > (b)) ? (a) : (b))
 #define _snprintf snprintf
 #define _vsnprintf(a,b,c,d) vsnprintf(a,b,c,d)
-#endif
 #endif //_WIN32
 
 // Misc C-runtime library headers
 #include "stdio.h"
 #include "stdlib.h"
 #include "math.h"
+
+#ifndef min
+using std::max;
+#define min(a,b)  (((a) < (b)) ? (a) : (b))
+using std::min;
+#endif
+#ifndef max
+#define max(a,b)  (((a) > (b)) ? (a) : (b))
+#endif
 
 // Header file containing definition of globalvars_t and entvars_t
 typedef int	func_t;					//
