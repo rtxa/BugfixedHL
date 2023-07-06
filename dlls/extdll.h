@@ -64,6 +64,11 @@ typedef int BOOL;
 #include "stdlib.h"
 #include "math.h"
 
+// Min/max
+#include <algorithm>
+using std::max;
+using std::min;
+
 // Header file containing definition of globalvars_t and entvars_t
 typedef int	func_t;					//
 typedef int	string_t;				// from engine's pr_comp.h;
