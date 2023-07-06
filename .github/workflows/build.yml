@@ -21,6 +21,7 @@ jobs:
     - name: Install dependencies
       run: |
        yum install -y libstdc++-devel.i686
+       yum install -y glibc-devel
     
     - name: Build release
       run: |
