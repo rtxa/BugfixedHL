@@ -59,9 +59,7 @@ typedef int BOOL;
 #include "math.h"
 
 #ifndef min
-using std::max;
 #define min(a,b)  (((a) < (b)) ? (a) : (b))
-using std::min;
 #endif
 #ifndef max
 #define max(a,b)  (((a) > (b)) ? (a) : (b))
