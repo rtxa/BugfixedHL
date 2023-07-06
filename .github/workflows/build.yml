@@ -18,6 +18,10 @@ jobs:
       with:
         fetch-depth: 0
     
+    - name: Install dependencies
+      run: |
+        sudo yum install libstdc++-devel.i686
+    
     - name: Build release
       run: |
         # Note: I set GCC 3.4 as the default compiler because newer versions don't work with some metamod versions
