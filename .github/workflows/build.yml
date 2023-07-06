@@ -20,8 +20,7 @@ jobs:
     
     - name: Install dependencies
       run: |
-       yum install -y libstdc++-devel.i686
-       yum install -y glibc-devel
+       yum install -y glibc-devel.i686 libgcc.i686 libstdc++-devel.i686 ncurses-devel.i686
     
     - name: Build release
       run: |
