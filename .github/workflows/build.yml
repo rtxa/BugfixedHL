@@ -20,7 +20,7 @@ jobs:
     
     - name: Install dependencies
       run: |
-       yum install libstdc++-devel.i686
+       yum install -y libstdc++-devel.i686
     
     - name: Build release
       run: |
