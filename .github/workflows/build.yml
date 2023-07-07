@@ -10,7 +10,7 @@ on:
 jobs:
   build-linux:
     runs-on: ubuntu-latest
-    container: rodrigobdz/ubuntu
+    container: rodrigobdz/ubuntu:16.04
     
     steps:
     - name: Checkout repository
