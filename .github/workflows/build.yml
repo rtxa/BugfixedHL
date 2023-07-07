@@ -10,7 +10,8 @@ on:
 jobs:
   build-linux:
     runs-on: ubuntu-latest
-
+    container: rodrigobdz/ubuntu
+    
     steps:
     - name: Checkout repository
       uses: actions/checkout@v2
@@ -65,32 +66,3 @@ jobs:
       with:
         name: bugfixedhl-linux
         path: bugfixedhl-linux/
-
-  build-windows:
-    runs-on: windows-2019
-  
-    steps: 
-    - name: Checkout repository
-      uses: actions/checkout@v2
-      with: 
-        fetch-depth: 0
-        
-    - name: Setup MSBuild.exe
-      uses: microsoft/setup-msbuild@v1.0.2
-        
-    - name: Build release
-      run: |
-        msbuild multiplayer.sln -target:hl /p:Configuration=Release
-
-        mkdir bugfixedhl-windows
-        mkdir bugfixedhl-windows\dlls
-
-        copy dlls\msvc\Release\hl.dll bugfixedhl-windows\dlls\
-        copy network\delta.lst bugfixedhl-windows
-        copy Readme.txt bugfixedhl-windows
-      
-    - name: Upload artifact
-      uses: actions/upload-artifact@v2
-      with:
-        name: bugfixedhl-windows
-        path: bugfixedhl-windows
