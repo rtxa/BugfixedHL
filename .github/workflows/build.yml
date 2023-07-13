@@ -36,10 +36,16 @@ jobs:
         cp -i network/delta.lst bugfixedhl-linux
         cp -i Readme.txt bugfixedhl-linux
 
+    - name: Get current tag and commit SHA for artifact naming
+      id: naming
+      run: |
+        echo "tag=$(git describe --tags --abbrev=0)" >> $GITHUB_OUTPUT
+        echo "sha_short=$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
+
     - name: Upload artifact
       uses: actions/upload-artifact@v2
       with:
-        name: bugfixedhl-linux
+        name: bugfixedhl-${{ steps.naming.outputs.tag }}-linux-${{ steps.naming.outputs.sha_short }}
         path: bugfixedhl-linux/
 
   build-windows:
@@ -64,9 +70,15 @@ jobs:
         copy dlls\msvc\Release\hl.dll bugfixedhl-windows\dlls\
         copy network\delta.lst bugfixedhl-windows
         copy Readme.txt bugfixedhl-windows
-      
+
+    - name: Get current tag and commit SHA for artifact naming
+      id: naming
+      run: |
+        echo "tag=$(git describe --tags --abbrev=0)" >> $Env:GITHUB_OUTPUT
+        echo "sha_short=$(git rev-parse --short HEAD)" >> $Env:GITHUB_OUTPUT
+
     - name: Upload artifact
       uses: actions/upload-artifact@v2
       with:
-        name: bugfixedhl-windows
+        name: bugfixedhl-${{ steps.naming.outputs.tag }}-win32-${{ steps.naming.outputs.sha_short }}
         path: bugfixedhl-windows
