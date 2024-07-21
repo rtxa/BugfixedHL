@@ -407,6 +407,21 @@ void CGauss::Fire( Vector vecOrigSrc, Vector vecDir, float flDamage )
 //	ALERT( at_console, "%f %f\n", tr.flFraction, flMaxFrac );
 
 #ifndef CLIENT_DLL
+	/**
+	 * Type of selfgauss:
+	 * - 0: Only reflected selfgauss (Useful for countering players who shoot at lamps)
+	 * - 1: Enabled (like in vanilla HLDM)
+	 * - 2: No selfgauss
+	 */
+	int selfgaussType = (int) selfgauss.value;
+	float playerOldDmgType = m_pPlayer->pev->takedamage;
+
+	if (selfgaussType == 2)
+	{
+		// Disable damage for firing player temporarily
+		m_pPlayer->pev->takedamage = DAMAGE_NO;
+	}
+
 	while (flDamage > 10 && nMaxHits > 0)
 	{
 		nMaxHits--;
@@ -516,7 +531,7 @@ void CGauss::Fire( Vector vecOrigSrc, Vector vecDir, float flDamage )
 
 							vecSrc = beam_tr.vecEndPos + vecDir;
 						}
-						else if (selfgauss.value == 0)
+						else if (selfgauss.value == 0 || selfgauss.value == 2)
 						{
 							flDamage = 0;
 						}
@@ -542,6 +557,13 @@ void CGauss::Fire( Vector vecOrigSrc, Vector vecDir, float flDamage )
 			pentIgnore = ENT( pEntity->pev );
 		}
 	}
+
+	if (selfgaussType == 2)
+	{
+		// Restore damage type
+		m_pPlayer->pev->takedamage = playerOldDmgType;
+	}
+
 #endif
 	// ALERT( at_console, "%d bytes\n", nTotal );
 }
