@@ -11,6 +11,8 @@ jobs:
   build-linux:
     runs-on: ubuntu-latest
     container: onlyrtxa/centos7-gcc4:latest
+    env:
+      ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION: true
 
     steps:
     - name: Checkout repository
