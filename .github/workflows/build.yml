@@ -10,7 +10,7 @@ on:
 jobs:
   build-linux:
     runs-on: ubuntu-latest
-    container: centos:centos7
+    container: onlyrtxa/centos7-gcc4:latest
 
     steps:
     - name: Checkout repository
@@ -18,13 +18,6 @@ jobs:
       with:
         fetch-depth: 0
         
-    - name: Install dependencies
-      run: |
-       yum install -y make
-       yum install -y git
-       yum install -y gcc gcc-c++
-       yum install -y glibc-devel.i686 libstdc++-devel.i686
-    
     - name: Build release
       run: |        
         make -C dlls
